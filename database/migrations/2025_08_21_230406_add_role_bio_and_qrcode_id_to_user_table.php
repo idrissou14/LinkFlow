@@ -11,8 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('User', function (Blueprint $table) {
-            //
+        Schema::table('users', function (Blueprint $table) {
+            $table->text('bio')->nullable();
+            $table->enum('role',['admin','user'])->default('user');
+            $table->string('qrcode_id')->unique()->nullable();
         });
     }
 
@@ -21,8 +23,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('User', function (Blueprint $table) {
-            //
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn(['bio','role','qrcode_id']);
         });
     }
 };
