@@ -2,15 +2,16 @@
 
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\LinkController;
 
 Route::get('/', function () {
     return Inertia::render('welcome');
-})->name('home');
+})->name('welcome');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('home', function () {
-        return Inertia::render('screens/home');
-    })->name('home');
+    Route::get('home', [LinkController::class, 'index'])->name('home');
+
+    Route::resource('links', LinkController::class);
 });
 
 require __DIR__.'/settings.php';

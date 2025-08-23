@@ -12,7 +12,7 @@ class Link extends Model
     protected $fillable = [
         'title',
         'url',
-        'qrcod_id',
+        'user_id',
     ];
 
     public function user(){
