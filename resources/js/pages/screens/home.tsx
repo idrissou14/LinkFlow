@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Plus, QrCode, Settings } from 'lucide-react';
-import { usePage, useForm, router } from '@inertiajs/react';
+import { Link, useForm, usePage, router } from '@inertiajs/react';
 import QRCode from 'react-qr-code';
 
 interface User {
@@ -167,12 +167,13 @@ export default function Home() {
                     >
                         <QrCode size={28} />
                     </button>
-                    <button
-                        className="p-4 bg-gradient-to-tr from-gray-700 to-gray-900 text-white rounded-full shadow-xl hover:scale-110 transition"
+                    <Link
+                        href={route('profile.edit')}
+                        className="block p-4 bg-gradient-to-tr from-gray-700 to-gray-900 text-white rounded-full shadow-xl hover:scale-110 transition"
                         title="Paramètres"
                     >
                         <Settings size={28} />
-                    </button>
+                    </Link>
                 </div>
 
                 {/* Modale : Ajouter un lien */}

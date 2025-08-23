@@ -15,15 +15,17 @@ interface LoginProps {
 
 export default function Login({ status, canResetPassword }: LoginProps) {
     return (
-        <AuthLayout title="Log in to your account" description="Enter your email and password below to log in">
-            <Head title="Log in" />
+        <AuthLayout title="Content de vous revoir" description="Connectez-vous pour accéder à votre Hub.">
+            <Head title="Se connecter" />
 
-            <Form method="post" action={route('login')} resetOnSuccess={['password']} className="flex flex-col gap-6">
+            <Form method="post" action={route('login')} resetOnSuccess={['password']} className="flex flex-col gap-y-6">
                 {({ processing, errors }) => (
                     <>
-                        <div className="grid gap-6">
+                        <div className="grid gap-y-4">
                             <div className="grid gap-2">
-                                <Label htmlFor="email">Email address</Label>
+                                <Label htmlFor="email" className="text-gray-300">
+                                    Adresse e-mail
+                                </Label>
                                 <Input
                                     id="email"
                                     type="email"
@@ -33,16 +35,23 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                                     tabIndex={1}
                                     autoComplete="email"
                                     placeholder="email@example.com"
+                                    className="bg-white/5 border-white/20 placeholder:text-gray-400 focus:ring-cyan-500"
                                 />
                                 <InputError message={errors.email} />
                             </div>
 
                             <div className="grid gap-2">
                                 <div className="flex items-center">
-                                    <Label htmlFor="password">Password</Label>
+                                    <Label htmlFor="password" className="text-gray-300">
+                                        Mot de passe
+                                    </Label>
                                     {canResetPassword && (
-                                        <TextLink href={route('password.request')} className="ml-auto text-sm" tabIndex={5}>
-                                            Forgot password?
+                                        <TextLink
+                                            href={route('password.request')}
+                                            className="ml-auto text-sm text-cyan-400 hover:underline"
+                                            tabIndex={5}
+                                        >
+                                            Mot de passe oublié ?
                                         </TextLink>
                                     )}
                                 </div>
@@ -53,33 +62,41 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                                     required
                                     tabIndex={2}
                                     autoComplete="current-password"
-                                    placeholder="Password"
+                                    placeholder="••••••••"
+                                    className="bg-white/5 border-white/20 placeholder:text-gray-400 focus:ring-cyan-500"
                                 />
                                 <InputError message={errors.password} />
                             </div>
 
                             <div className="flex items-center space-x-3">
-                                <Checkbox id="remember" name="remember" tabIndex={3} />
-                                <Label htmlFor="remember">Remember me</Label>
+                                <Checkbox id="remember" name="remember" tabIndex={3} className="border-white/30" />
+                                <Label htmlFor="remember" className="text-gray-300">
+                                    Se souvenir de moi
+                                </Label>
                             </div>
 
-                            <Button type="submit" className="mt-4 w-full" tabIndex={4} disabled={processing}>
-                                {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
-                                Log in
+                            <Button
+                                type="submit"
+                                className="mt-4 w-full bg-gradient-to-tr from-cyan-500 to-blue-600 text-white font-bold hover:scale-105 transition-transform disabled:opacity-70"
+                                tabIndex={4}
+                                disabled={processing}
+                            >
+                                {processing && <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />}
+                                Se connecter
                             </Button>
                         </div>
 
-                        <div className="text-center text-sm text-muted-foreground">
-                            Don't have an account?{' '}
-                            <TextLink href={route('register')} tabIndex={5}>
-                                Sign up
+                        <div className="text-center text-sm text-gray-400">
+                            Pas encore de compte ?{' '}
+                            <TextLink href={route('register')} tabIndex={5} className="text-cyan-400 hover:underline">
+                                S'inscrire
                             </TextLink>
                         </div>
                     </>
                 )}
             </Form>
 
-            {status && <div className="mb-4 text-center text-sm font-medium text-green-600">{status}</div>}
+            {status && <div className="mb-4 text-center text-sm font-medium text-green-400">{status}</div>}
         </AuthLayout>
     );
 }
