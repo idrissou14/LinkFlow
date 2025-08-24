@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Plus, QrCode, Settings } from 'lucide-react';
 import { Link, useForm, usePage, router } from '@inertiajs/react';
 import QRCode from 'react-qr-code';
+import { SplashCursor } from "@/components/ui/splash-cursor"
+
 
 interface User {
     id: number;
@@ -83,12 +85,19 @@ export default function Home() {
         if (window.confirm('Supprimer ce lien ?')) {
             router.delete(route('links.destroy', id), {
                 preserveScroll: true,
+                onError: () => {
+                    alert(
+                        'Une erreur est survenue. Votre session a probablement expiré. Veuillez rafraîchir la page et réessayer.',
+                    );
+                },
             });
         }
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-[#0f2027] via-[#2c5364] to-[#232526] flex items-center justify-center px-4">
+        <>
+            <SplashCursor />
+            <div className="min-h-screen bg-gradient-to-br from-[#0f2027] via-[#2c5364] to-[#232526] flex items-center justify-center px-4">
             <div className="relative w-full max-w-lg">
                 {/* Carte utilisateur */}
                 <div className="bg-white/10 backdrop-blur-lg rounded-3xl shadow-2xl p-8 flex flex-col items-center border border-white/20">
@@ -228,7 +237,7 @@ export default function Home() {
                             </button>
                             <h2 className="text-xl font-bold mb-6 text-cyan-200">Mon QR Code</h2>
                             <div className="flex items-center justify-center min-h-[150px] bg-white/10 rounded-lg">
-                                <QrCode values={profileUrl} size={250} />
+                                <QRCode value={profileUrl} size={250} bgColor="#1e293b" fgColor="#06b6d4" level="H" />
                             </div>
                         </div>
                     </div>
@@ -275,5 +284,6 @@ export default function Home() {
                 )}
             </div>
         </div>
+        </>
     );
 }

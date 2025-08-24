@@ -2,6 +2,7 @@ import { type SharedData } from '@/types';
 import { Head, Link, usePage } from '@inertiajs/react';
 import AppLogo from '@/components/app-logo';
 import { ArrowRight, Link as LinkIcon, QrCode, Palette } from 'lucide-react';
+import { SplashCursor } from '@/components/ui/splash-cursor';
 
 export default function Welcome() {
     const { auth } = usePage<SharedData>().props;
@@ -9,6 +10,7 @@ export default function Welcome() {
     return (
         <>
             <Head title="Bienvenue sur Link-Hub" />
+            <SplashCursor />
             <div className="min-h-screen bg-gradient-to-br from-[#0f2027] via-[#2c5364] to-[#232526] text-white">
                 {/* Header */}
                 <header className="absolute top-0 left-0 right-0 p-6">
