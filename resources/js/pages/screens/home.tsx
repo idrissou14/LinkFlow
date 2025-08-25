@@ -9,7 +9,6 @@ interface User {
     id: number;
     name: string;
     email: string;
-    bio: string;
 }
 
 interface Link {
@@ -111,7 +110,6 @@ export default function Home() {
                     </div>
                     <h1 className="text-2xl font-extrabold text-white tracking-tight">{user.name}</h1>
                     <p className="text-cyan-200 text-sm mt-1">{user.email}</p>
-                    <p className="text-gray-300 text-center mt-3 text-base">{user.bio}</p>
                 </div>
 
                 {/* Liste des liens */}
