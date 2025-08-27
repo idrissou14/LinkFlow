@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 class MyWidget extends ChartWidget
 {
-    protected static ?string $heading = 'Croissance des utilisateurs';
+        protected ?string $heading = 'Croissance des utilisateurs';
 
     protected ?string $description = 'Nombre de nouveaux utilisateurs par mois sur les 12 derniers mois.';
 
@@ -20,9 +20,17 @@ class MyWidget extends ChartWidget
         // Définit la locale sur français pour la traduction des mois
         Carbon::setLocale('fr');
 
+        $dbDriver = config('database.connections.' . config('database.default') . '.driver');
+
+        $dateFunction = match ($dbDriver) {
+            'mysql' => 'DATE_FORMAT(created_at, \'%Y-%m\')',
+            'sqlite' => 'strftime(\'%Y-%m\', created_at)',
+            default => 'DATE(created_at)' // Fallback générique
+        };
+
         // Récupère le nombre d'utilisateurs groupés par mois pour les 12 derniers mois
         $usersData = User::select(
-                DB::raw('strftime(\'%Y-%m\', created_at) as month'),
+                DB::raw("$dateFunction as month"),
                 DB::raw('COUNT(*) as count')
             )
             ->where('created_at', '>=', Carbon::now()->subYear())
