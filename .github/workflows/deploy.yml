@@ -1,8 +1,8 @@
-name: Deploy Laravel to Hostinger
+name: Deploy Laravel to Hostinger via SFTP
 
 on:
   push:
-    branches: [ "main" ]  # déploiement à chaque push sur main
+    branches: [ "main" ]
 
 jobs:
   deploy:
@@ -12,10 +12,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Deploy via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.0
+      - name: SFTP Deploy
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PSW }}
-          server-dir: linkflow.srv696182.hstgr.cloud/home/hstgr-linkflow-srv696182/
+          username: ${{ secrets.SFTP_USER }}
+          server: ${{ secrets.SFTP_HOST }}
+          port: ${{ secrets.SFTP_PORT }}
+          password: ${{ secrets.SFTP_PASSWORD }}
+          local_path: "./"
+          remote_path: "/home/hstgr-linkflow-srv696182/linkflow/"
+          sftp_only: true
+
+          # server-dir: linkflow.srv696182.hstgr.cloud/home/hstgr-linkflow-srv696182/
