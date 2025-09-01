@@ -40,7 +40,7 @@ export function AppSidebar() {
                                 <div className="container mx-auto flex justify-between items-center">
                                     <div className="flex items-center text-2xl font-bold">
                                         <span className="text-white">Link</span>
-                                        <span className="ml-1.5 rounded-md bg-cyan-500 px-2 py-1 text-white">Hub</span>
+                                        <span className="ml-1.5 rounded-md bg-cyan-500 px-2 py-1 text-white">Flow</span>
                                     </div>
                                 </div>
                             </Link>

@@ -1,0 +1,21 @@
+name: Deploy Laravel to Hostinger
+
+on:
+  push:
+    branches: [ "main" ]  # déploiement à chaque push sur main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Deploy via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.0
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PSW }}
+          server-dir: linkflow.srv696182.hstgr.cloud/home/hstgr-linkflow-srv696182/
