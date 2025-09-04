@@ -100,7 +100,7 @@ export default function Welcome() {
                 {/* Footer */}
                 <footer className="py-8 bg-black/20">
                     <div className="container mx-auto text-center text-gray-500">
-                        <p>&copy; {new Date().getFullYear()} Link-Hub. Tous droits réservés.</p>
+                        <p>&copy; {new Date().getFullYear()} LinkFlow. Tous droits réservés.</p>
                     </div>
                 </footer>
             </div>
