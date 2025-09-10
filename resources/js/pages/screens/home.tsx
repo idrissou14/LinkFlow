@@ -266,43 +266,64 @@ export default function Home() {
 
                 {/* Modale : QR Code */}
                 {showQrcode && (
-                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-                        <div className="bg-[#181f2a] p-8 rounded-2xl shadow-2xl w-full max-w-md relative border border-cyan-700/30 text-center">
-                            <button
-                                className="absolute top-3 right-3 text-gray-400 hover:text-white text-2xl"
-                                onClick={() => setShowQrcode(false)}
-                            >
-                                &times;
-                            </button>
-                            <h2 className="text-xl font-bold mb-6 text-cyan-200">Mon QR Code</h2>
-                            <div ref={qrCodeRef} className="flex items-center justify-center min-h-[150px] bg-white/10 rounded-lg">
-                                <QRCode value={profileUrl} size={250} bgColor="#1e293b" fgColor="#06b6d4" level="H" />
-                            </div>
-                            <div className="mt-6 flex justify-center items-center gap-4">
-                                <button
-                                    onClick={handleDownloadQRCode}
-                                    className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-tr from-green-500 to-cyan-600 text-white font-semibold hover:scale-105 transition"
-                                >
-                                    <Download size={18} />
-                                    Télécharger
-                                </button>
-                                <button
-                                    onClick={handleCopyUrl}
-                                    className="flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-tr from-gray-600 to-gray-800 text-white font-semibold hover:scale-105 transition w-36"
-                                >
-                                    {copyStatus ? (
-                                        <span>{copyStatus}</span>
-                                    ) : (
-                                        <>
-                                            <Copy size={18} />
-                                            Copier le lien
-                                        </>
-                                    )}
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                )}
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md animate-fadeIn">
+    <div className="relative bg-gradient-to-br from-[#1a2234] to-[#0f172a] p-8 rounded-3xl shadow-2xl w-full max-w-md border border-cyan-600/40 text-center animate-slideUp">
+      
+      {/* Close button */}
+      <button
+        className="absolute top-4 right-4 text-gray-400 hover:text-cyan-300 transition-colors text-2xl"
+        onClick={() => setShowQrcode(false)}
+      >
+        &times;
+      </button>
+
+      {/* Title */}
+      <h2 className="text-2xl font-extrabold mb-6 bg-gradient-to-r from-cyan-400 to-green-400 text-transparent bg-clip-text">
+        Mon QR Code
+      </h2>
+
+      {/* QR Code Box */}
+      <div 
+        ref={qrCodeRef} 
+        className="flex items-center justify-center min-h-[180px] p-4 bg-white/5 rounded-2xl shadow-inner border border-cyan-500/20"
+      >
+        <QRCode 
+          value={profileUrl} 
+          size={230} 
+          bgColor="transparent" 
+          fgColor="#06b6d4" 
+          level="H" 
+        />
+      </div>
+
+      {/* Actions */}
+      <div className="mt-8 flex justify-center items-center gap-4">
+        <button
+          onClick={handleDownloadQRCode}
+          className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-tr from-green-500 to-cyan-600 text-white font-semibold shadow-md hover:shadow-lg hover:scale-105 active:scale-95 transition-all"
+        >
+          <Download size={18} />
+          Télécharger
+        </button>
+
+        <button
+          onClick={handleCopyUrl}
+          className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-tr from-gray-700 to-gray-900 text-white font-semibold shadow-md hover:shadow-lg hover:scale-105 active:scale-95 transition-all w-40"
+        >
+          {copyStatus ? (
+            <span className="text-green-400">{copyStatus}</span>
+          ) : (
+            <>
+              <Copy size={18} />
+              Copier le lien
+            </>
+          )}
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
 
                 {/* Modale : Modifier un lien */}
                 {editId !== null && (
