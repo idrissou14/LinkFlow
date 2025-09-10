@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Plus, QrCode, Settings } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { Plus, QrCode, Settings, Download, Copy } from 'lucide-react';
 import { Link, useForm, usePage, router } from '@inertiajs/react';
 import QRCode from 'react-qr-code';
 import { SplashCursor } from "@/components/ui/splash-cursor"
@@ -27,6 +27,8 @@ export default function Home() {
     const [showModal, setShowModal] = useState(false);
     const [showQrcode, setShowQrcode] = useState(false);
     const [editId, setEditId] = useState<number | null>(null);
+    const [copyStatus, setCopyStatus] = useState('');
+    const qrCodeRef = useRef<HTMLDivElement>(null);
 
     const { user, links } = usePage<PageProps>().props;
     //url for qrcode test
@@ -90,6 +92,43 @@ export default function Home() {
                     );
                 },
             });
+        }
+    };
+
+    const handleDownloadQRCode = () => {
+        const svgNode = qrCodeRef.current?.querySelector('svg');
+        if (!svgNode) return;
+
+        const svgData = new XMLSerializer().serializeToString(svgNode);
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return;
+
+        const img = new Image();
+        img.onload = () => {
+            canvas.width = svgNode.width.baseVal.value;
+            canvas.height = svgNode.height.baseVal.value;
+            ctx.drawImage(img, 0, 0);
+            const pngFile = canvas.toDataURL('image/png');
+            const downloadLink = document.createElement('a');
+            downloadLink.download = `${user.name}-qrcode.png`;
+            downloadLink.href = pngFile;
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+        };
+        img.src = "data:image/svg+xml;base64," + btoa(unescape(encodeURIComponent(svgData)));
+    };
+
+    const handleCopyUrl = async () => {
+        try {
+            await navigator.clipboard.writeText(profileUrl);
+            setCopyStatus('Copié !');
+            setTimeout(() => setCopyStatus(''), 2000);
+        } catch (err) {
+            console.error('Failed to copy: ', err);
+            setCopyStatus('Erreur');
+            setTimeout(() => setCopyStatus(''), 2000);
         }
     };
 
@@ -236,8 +275,30 @@ export default function Home() {
                                 &times;
                             </button>
                             <h2 className="text-xl font-bold mb-6 text-cyan-200">Mon QR Code</h2>
-                            <div className="flex items-center justify-center min-h-[150px] bg-white/10 rounded-lg">
+                            <div ref={qrCodeRef} className="flex items-center justify-center min-h-[150px] bg-white/10 rounded-lg">
                                 <QRCode value={profileUrl} size={250} bgColor="#1e293b" fgColor="#06b6d4" level="H" />
+                            </div>
+                            <div className="mt-6 flex justify-center items-center gap-4">
+                                <button
+                                    onClick={handleDownloadQRCode}
+                                    className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-tr from-green-500 to-cyan-600 text-white font-semibold hover:scale-105 transition"
+                                >
+                                    <Download size={18} />
+                                    Télécharger
+                                </button>
+                                <button
+                                    onClick={handleCopyUrl}
+                                    className="flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-tr from-gray-600 to-gray-800 text-white font-semibold hover:scale-105 transition w-36"
+                                >
+                                    {copyStatus ? (
+                                        <span>{copyStatus}</span>
+                                    ) : (
+                                        <>
+                                            <Copy size={18} />
+                                            Copier le lien
+                                        </>
+                                    )}
+                                </button>
                             </div>
                         </div>
                     </div>
