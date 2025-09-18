@@ -9,6 +9,7 @@ interface User {
     id: number;
     name: string;
     email: string;
+    public_id: string;
 }
 
 interface Link {
@@ -32,7 +33,7 @@ export default function Home() {
 
     const { user, links } = usePage<PageProps>().props;
     //url for qrcode test
-    const profileUrl = `${window.location.origin}/profile/${user.id}`;
+    const profileUrl = `${window.location.origin}/profile/${user.public_id}`;
 
     const { data, setData, post, processing, reset, errors } = useForm({
         title: '',
