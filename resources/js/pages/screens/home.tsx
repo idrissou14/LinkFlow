@@ -136,7 +136,7 @@ export default function Home() {
     return (
         <>
             {/* mettre l'effet du curseur uniquement quand il n'y a pas de modale d'ouverte */}
-            {!showModal && !showQrcode && editId === null && <SplashCursor />}
+            {/* {!showModal && !showQrcode && editId === null && <SplashCursor />} */}
 
             <div className="min-h-screen bg-gradient-to-br from-[#0f2027] via-[#2c5364] to-[#232526] flex items-center justify-center px-4">
             <div className="relative w-full max-w-lg">

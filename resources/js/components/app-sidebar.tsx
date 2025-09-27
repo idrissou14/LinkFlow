@@ -35,14 +35,16 @@ export function AppSidebar() {
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
-                            <Link href="/dashboard" prefetch>
-                                
-                                <div className="container mx-auto flex justify-between items-center">
-                                    <div className="flex items-center text-2xl font-bold">
-                                        <span className="text-white">Link</span>
-                                        <span className="ml-1.5 rounded-md bg-cyan-500 px-2 py-1 text-white">Flow</span>
-                                    </div>
-                                </div>
+                            <Link href="/home" prefetch>
+                                <button
+                                    className="flex items-center gap-2 px-4 py-2 bg-cyan-600 hover:bg-blue-700 text-white rounded-lg shadow transition-all duration-200 font-semibold text-lg"
+                                    type="button"
+                                >
+                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M13 5v6h6m-6 0v6m0-6H7m6 0h6" />
+                                    </svg>
+                                    Back to Home
+                                </button>
                             </Link>
                         </SidebarMenuButton>
                     </SidebarMenuItem>
