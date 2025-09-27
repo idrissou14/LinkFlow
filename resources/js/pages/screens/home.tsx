@@ -316,7 +316,7 @@ export default function Home() {
           ) : (
             <>
               <Copy size={18} />
-              Copier le lien
+              Copier
             </>
           )}
         </button>
