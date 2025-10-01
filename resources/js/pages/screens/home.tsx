@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { Plus, QrCode, Settings, Download, Copy } from 'lucide-react';
 import { Link, useForm, usePage, router } from '@inertiajs/react';
 import QRCode from 'react-qr-code';
-import { SplashCursor } from "@/components/ui/splash-cursor"
+import { useIsMobile } from '@/hooks/use-mobile';
 
 
 interface User {
@@ -29,13 +29,15 @@ export default function Home() {
     const [showQrcode, setShowQrcode] = useState(false);
     const [editId, setEditId] = useState<number | null>(null);
     const [copyStatus, setCopyStatus] = useState('');
+    const [activeLinkId, setActiveLinkId] = useState<number | null>(null);
     const qrCodeRef = useRef<HTMLDivElement>(null);
+    const isMobile = useIsMobile();
 
     const { user, links } = usePage<PageProps>().props;
     //url for qrcode test
     const profileUrl = `${window.location.origin}/profile/${user.public_id}`;
 
-    const { data, setData, post, processing, reset, errors } = useForm({
+    const { data, setData, post, processing, reset } = useForm({
         title: '',
         url: '',
     });
@@ -93,6 +95,12 @@ export default function Home() {
                     );
                 },
             });
+        }
+    };
+
+    const handleLinkItemClick = (linkId: number) => {
+        if (isMobile) {
+            setActiveLinkId(prevId => (prevId === linkId ? null : linkId));
         }
     };
 
@@ -165,6 +173,7 @@ export default function Home() {
                             <li
                                 key={link.id}
                                 className="flex items-center justify-between bg-white/5 hover:bg-cyan-900/30 transition rounded-xl px-4 py-3 group"
+                                onClick={() => handleLinkItemClick(link.id)}
                             >
                                 <a
                                     href={link.url}
@@ -174,7 +183,15 @@ export default function Home() {
                                 >
                                     {link.title}
                                 </a>
-                                <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition">
+                                <div
+                                    className={`flex items-center gap-2 transition-opacity ${
+                                        isMobile
+                                            ? activeLinkId === link.id
+                                                ? 'opacity-100'
+                                                : 'opacity-0'
+                                            : 'opacity-0 group-hover:opacity-100'
+                                    }`}
+                                >
                                     <button
                                         className="p-1 rounded hover:bg-cyan-700/30 transition"
                                         title="Modifier"
@@ -201,7 +218,7 @@ export default function Home() {
                 </div>
 
                 {/* Boutons flottants */}
-                <div className="fixed bottom-8 right-8 flex flex-col gap-4 z-50">
+                <div className="fixed bottom-4 right-4 sm:bottom-8 sm:right-8 flex flex-col gap-4 z-50">
                     <button
                         className="p-4 bg-gradient-to-tr from-cyan-500 to-blue-600 text-white rounded-full shadow-xl hover:scale-110 transition"
                         onClick={handleAddLink}
