@@ -21,7 +21,7 @@ interface Link {
 interface PageProps {
     user: User;
     links: Link[];
-    [key: string]: any;
+    [key: string]: unknown;
 }
 
 export default function Home() {
