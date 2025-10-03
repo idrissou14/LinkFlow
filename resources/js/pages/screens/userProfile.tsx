@@ -22,7 +22,7 @@ interface Link {
 interface PageProps {
     profileUser: User;
     links: Link[];
-    [key: string]: any;
+    [key: string]: unknown;
 }
 
 /**

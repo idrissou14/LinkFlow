@@ -1,4 +1,4 @@
-import { SplashCursor } from '@/components/ui/splash-cursor';
+
 import { Link } from '@inertiajs/react';
 import { type PropsWithChildren } from 'react';
 

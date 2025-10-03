@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { Plus, QrCode, Settings, Download, Copy } from 'lucide-react';
 import { Link, useForm, usePage, router } from '@inertiajs/react';
 import QRCode from 'react-qr-code';
-import { SplashCursor } from "@/components/ui/splash-cursor"
+
 
 
 interface User {
@@ -36,7 +36,7 @@ export default function Home() {
     //url for qrcode test
     const profileUrl = `${window.location.origin}/profile/${user.public_id}`;
 
-    const { data, setData, post, processing, reset, errors } = useForm({
+    const { data, setData, post, processing, reset } = useForm({
         title: '',
         url: '',
     });
