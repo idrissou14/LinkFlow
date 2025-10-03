@@ -27,6 +27,7 @@ interface PageProps {
 export default function Home() {
     const [showModal, setShowModal] = useState(false);
     const [showQrcode, setShowQrcode] = useState(false);
+    const[showMenu, setShowMenu] = useState(false);
     const [editId, setEditId] = useState<number | null>(null);
     const [copyStatus, setCopyStatus] = useState('');
     const qrCodeRef = useRef<HTMLDivElement>(null);
@@ -174,9 +175,9 @@ export default function Home() {
                                 >
                                     {link.title}
                                 </a>
-                                <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition">
+                                <div className="flex items-center gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition">
                                     <button
-                                        className="p-1 rounded hover:bg-cyan-700/30 transition"
+                                        className="p-2 rounded-lg hover:bg-cyan-700/30 transition active:scale-95"
                                         title="Modifier"
                                         onClick={() => handleEditLink(link)}
                                     >
@@ -186,7 +187,7 @@ export default function Home() {
                                         </svg>
                                     </button>
                                     <button
-                                        className="p-1 rounded hover:bg-red-700/30 transition"
+                                        className="p-2 rounded-lg hover:bg-cyan-700/30 transition active:scale-95"
                                         title="Supprimer"
                                         onClick={() => handleDeleteLink(link.id)}
                                     >
@@ -201,7 +202,46 @@ export default function Home() {
                 </div>
 
                 {/* Boutons flottants */}
-                <div className="fixed bottom-8 right-8 flex flex-col gap-4 z-50">
+                {/* Version mobile : un seul bouton avec menu */}
+                <div className="fixed bottom-6 right-6 z-50 md:hidden">
+                    <div className="relative">
+                        {/* Bouton principal (menu trigger) */}
+                        <button
+                        onClick={() => setShowMenu((prev) => !prev)}
+                        className="p-4 bg-gradient-to-tr from-cyan-500 to-blue-600 text-white rounded-full shadow-xl hover:scale-110 transition"
+                        title="Menu actions"
+                        >
+                        <Plus size={28} />
+                        </button>
+
+                        {/* Menu déroulant */}
+                        {showMenu && (
+                        <div className="absolute bottom-16 right-0 flex flex-col gap-2 bg-white/10 backdrop-blur-lg rounded-2xl shadow-xl p-3 border border-white/20">
+                            <button
+                            className="p-3 rounded-lg bg-gradient-to-tr from-green-400 to-cyan-500 text-white shadow hover:scale-105 transition"
+                            onClick={handleAddLink}
+                            >
+                            <Plus size={28} />
+                            </button>
+                            <button
+                            className="p-3 rounded-lg bg-gradient-to-tr from-green-400 to-cyan-500 text-white shadow hover:scale-105 transition"
+                            onClick={handleShowQrcode}
+                            >
+                            <QrCode size={22} />
+                            </button>
+                            <Link
+                            href={route('profile.edit')}
+                            className="p-3 rounded-lg bg-gradient-to-tr from-gray-700 to-gray-900 text-white shadow hover:scale-105 transition"
+                            >
+                            <Settings size={22} />
+                            </Link>
+                        </div>
+                        )}
+                    </div>
+                </div>
+
+                {/* Version desktop : 3 boutons flottants comme avant */}
+                <div className="fixed bottom-8 right-8 hidden md:flex flex-col gap-4 z-50">
                     <button
                         className="p-4 bg-gradient-to-tr from-cyan-500 to-blue-600 text-white rounded-full shadow-xl hover:scale-110 transition"
                         onClick={handleAddLink}
@@ -224,6 +264,7 @@ export default function Home() {
                         <Settings size={28} />
                     </Link>
                 </div>
+
 
                 {/* Modale : Ajouter un lien */}
                 {showModal && (
@@ -267,63 +308,63 @@ export default function Home() {
 
                 {/* Modale : QR Code */}
                 {showQrcode && (
-  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md animate-fadeIn">
-    <div className="relative bg-gradient-to-br from-[#1a2234] to-[#0f172a] p-8 rounded-3xl shadow-2xl w-full max-w-md border border-cyan-600/40 text-center animate-slideUp">
-      
-      {/* Close button */}
-      <button
-        className="absolute top-4 right-4 text-gray-400 hover:text-cyan-300 transition-colors text-2xl"
-        onClick={() => setShowQrcode(false)}
-      >
-        &times;
-      </button>
+                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md animate-fadeIn">
+                        <div className="relative bg-gradient-to-br from-[#1a2234] to-[#0f172a] p-8 rounded-3xl shadow-2xl w-full max-w-md border border-cyan-600/40 text-center animate-slideUp">
+                        
+                        {/* Close button */}
+                        <button
+                            className="absolute top-4 right-4 text-gray-400 hover:text-cyan-300 transition-colors text-2xl"
+                            onClick={() => setShowQrcode(false)}
+                        >
+                            &times;
+                        </button>
 
-      {/* Title */}
-      <h2 className="text-2xl font-extrabold mb-6 bg-gradient-to-r from-cyan-400 to-green-400 text-transparent bg-clip-text">
-        Mon QR Code
-      </h2>
+                        {/* Title */}
+                        <h2 className="text-2xl font-extrabold mb-6 bg-gradient-to-r from-cyan-400 to-green-400 text-transparent bg-clip-text">
+                            Mon QR Code
+                        </h2>
 
-      {/* QR Code Box */}
-      <div 
-        ref={qrCodeRef} 
-        className="flex items-center justify-center min-h-[180px] p-4 bg-white/5 rounded-2xl shadow-inner border border-cyan-500/20"
-      >
-        <QRCode 
-          value={profileUrl} 
-          size={230} 
-          bgColor="transparent" 
-          fgColor="#06b6d4" 
-          level="H" 
-        />
-      </div>
+                        {/* QR Code Box */}
+                        <div 
+                            ref={qrCodeRef} 
+                            className="flex items-center justify-center min-h-[180px] p-4 bg-white/5 rounded-2xl shadow-inner border border-cyan-500/20"
+                        >
+                            <QRCode 
+                            value={profileUrl} 
+                            size={230} 
+                            bgColor="transparent" 
+                            fgColor="#06b6d4" 
+                            level="H" 
+                            />
+                        </div>
 
-      {/* Actions */}
-      <div className="mt-8 flex justify-center items-center gap-4">
-        <button
-          onClick={handleDownloadQRCode}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-tr from-green-500 to-cyan-600 text-white font-semibold shadow-md hover:shadow-lg hover:scale-105 active:scale-95 transition-all"
-        >
-          <Download size={18} />
-          Télécharger
-        </button>
+                        {/* Actions */}
+                        <div className="mt-8 flex justify-center items-center gap-4">
+                            <button
+                            onClick={handleDownloadQRCode}
+                            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-tr from-green-500 to-cyan-600 text-white font-semibold shadow-md hover:shadow-lg hover:scale-105 active:scale-95 transition-all"
+                            >
+                            <Download size={18} />
+                            Télécharger
+                            </button>
 
-        <button
-          onClick={handleCopyUrl}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-tr from-gray-700 to-gray-900 text-white font-semibold shadow-md hover:shadow-lg hover:scale-105 active:scale-95 transition-all w-40"
-        >
-          {copyStatus ? (
-            <span className="text-green-400">{copyStatus}</span>
-          ) : (
-            <>
-              <Copy size={18} />
-              Copier
-            </>
-          )}
-        </button>
-      </div>
-    </div>
-  </div>
-)}
+                            <button
+                            onClick={handleCopyUrl}
+                            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-tr from-gray-700 to-gray-900 text-white font-semibold shadow-md hover:shadow-lg hover:scale-105 active:scale-95 transition-all w-40"
+                            >
+                            {copyStatus ? (
+                                <span className="text-green-400">{copyStatus}</span>
+                            ) : (
+                                <>
+                                <Copy size={18} />
+                                Copier
+                                </>
+                            )}
+                            </button>
+                        </div>
+                        </div>
+                    </div>
+                    )}
 
 
                 {/* Modale : Modifier un lien */}
